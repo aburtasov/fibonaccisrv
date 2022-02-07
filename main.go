@@ -18,4 +18,6 @@ func main() {
 
 	router.Run()
 
+	a := "test"
+
 }
