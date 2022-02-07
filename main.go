@@ -1,8 +1,8 @@
 package main
 
 import (
-	handler "github/aburtasov/fibonaccisrv/pkg/handler"
-	storage "github/aburtasov/fibonaccisrv/pkg/storage"
+	"github/aburtasov/fibonaccisrv/pkg/handler"
+	"github/aburtasov/fibonaccisrv/pkg/storage"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,4 +17,5 @@ func main() {
 	router.POST("/fibonacci/:len", handler.CreateFibonacci)
 
 	router.Run()
+
 }
