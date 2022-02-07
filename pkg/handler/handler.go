@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/aburtasov/fibonaccisrv/pkg/storage"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,10 +19,10 @@ type Fibonacci struct {
 }
 
 type Handler struct {
-	storage Storage
+	storage storage.Storage
 }
 
-func NewHandler(storage Storage) *Handler {
+func NewHandler(storage storage.Storage) *Handler {
 	return &Handler{storage: storage}
 }
 
