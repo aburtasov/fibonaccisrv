@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github/aburtasov/fibonaccisrv/pkg/handler"
-	"github/aburtasov/fibonaccisrv/pkg/storage"
+	"github.com/aburtasov/fibonaccisrv/pkg/handler"
+	"github.com/aburtasov/fibonaccisrv/pkg/storage"
 
 	"github.com/gin-gonic/gin"
 )
