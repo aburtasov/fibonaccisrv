@@ -14,10 +14,6 @@ type ErrorResponce struct {
 	Message string `json:"message"`
 }
 
-type Fibonacci struct {
-	len int `json:"len"`
-}
-
 type Handler struct {
 	storage storage.Storage
 }
