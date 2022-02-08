@@ -42,7 +42,7 @@ func (r *RedisStorage) Insert(length int) {
 		fib[i] = fib[i-1] + fib[i-2]
 	}
 
-	for i, _ := range fib {
+	for i := range fib {
 		r.mutex.Lock()
 		err := r.rdb.Set(ctx, strconv.Itoa(i), fib[i], 0).Err()
 		if err != nil {
