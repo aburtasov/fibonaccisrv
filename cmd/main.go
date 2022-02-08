@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/aburtasov/fibonaccisrv/pkg/handler"
 	"github.com/aburtasov/fibonaccisrv/pkg/storage"
 
@@ -16,6 +18,8 @@ func main() {
 	router.GET("/fibonacci/:x,y", handler.GetFibonacci)
 	router.POST("/fibonacci/:len", handler.CreateFibonacci)
 
-	router.Run()
+	if err := router.Run(); err != nil {
+		log.Fatal(err)
+	}
 
 }
