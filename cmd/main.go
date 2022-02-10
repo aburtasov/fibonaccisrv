@@ -11,6 +11,10 @@ import (
 
 func main() {
 
+	// Добавить работу с конфигом
+	// Добавить логер
+	// добавить graceful shutdown
+
 	storage := storage.NewRedisStorage()
 	handler := handler.NewHandler(storage)
 	router := gin.Default()
