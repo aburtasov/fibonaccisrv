@@ -20,10 +20,10 @@ type Storage interface {
 	Get(x, y int) []int
 }
 
-func NewRedisStorage() *RedisStorage {
+func NewRedisStorage(addr string) *RedisStorage {
 	return &RedisStorage{
 		rdb: redis.NewClient(&redis.Options{
-			Addr:     "localhost:6379",
+			Addr:     addr,
 			Password: "", // no password set
 			DB:       0,  // use default DV
 		}),
