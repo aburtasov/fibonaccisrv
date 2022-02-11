@@ -12,12 +12,20 @@ import (
 
 func main() {
 
+<<<<<<< HEAD
 	cfg, err := config.NewConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	storage := storage.NewRedisStorage(cfg.DBAddr)
+=======
+	// Добавить работу с конфигом
+	// Добавить логер
+	// добавить graceful shutdown
+
+	storage := storage.NewRedisStorage()
+>>>>>>> 2083c60c2a390d3afe97cf52b4dd4fe6a90eb47a
 	handler := handler.NewHandler(storage)
 	router := gin.Default()
 
