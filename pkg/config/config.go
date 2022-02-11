@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	HTTPAddr string `default:"8080"`
-	DBAddr   string `default:"localhost:6379"`
+	HTTPAddr string
+	DBAddr   string
 }
 
 func NewConfig() (*Config, error) {
