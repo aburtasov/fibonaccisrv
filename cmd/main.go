@@ -18,9 +18,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cfg.HTTPAddr)
+	fmt.Printf("Hello,%s!HTTP server is starting!\n", cfg.User)
 
-	storage := storage.NewRedisStorage()
+	storage := storage.NewRedisStorage(cfg.DBAddr)
 
 	handler := handler.NewHandler(storage)
 	router := gin.Default()
@@ -28,7 +28,7 @@ func main() {
 	router.GET("/fibonacci/:x,y", handler.GetFibonacci)
 	router.POST("/fibonacci/:len", handler.CreateFibonacci)
 
-	if err := router.Run(":8081"); err != nil {
+	if err := router.Run(cfg.HTTPAddr); err != nil {
 
 		log.Fatal(err)
 	}
