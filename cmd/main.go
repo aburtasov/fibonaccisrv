@@ -6,6 +6,7 @@ import (
 
 	"github.com/aburtasov/fibonaccisrv/pkg/config"
 	"github.com/aburtasov/fibonaccisrv/pkg/handler"
+	"github.com/aburtasov/fibonaccisrv/pkg/logger"
 	"github.com/aburtasov/fibonaccisrv/pkg/storage"
 
 	"github.com/gin-gonic/gin"
@@ -20,9 +21,12 @@ func main() {
 
 	fmt.Printf("Hello,%s!HTTP server is starting!\n", cfg.User)
 
+	logger := logger.NewLogger()
+
 	storage := storage.NewRedisStorage(cfg.DBAddr)
 
 	handler := handler.NewHandler(storage)
+
 	router := gin.Default()
 
 	router.GET("/fibonacci/:x,y", handler.GetFibonacci)
@@ -30,7 +34,7 @@ func main() {
 
 	if err := router.Run(cfg.HTTPAddr); err != nil {
 
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 }
