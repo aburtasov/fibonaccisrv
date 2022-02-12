@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/kelseyhightower/envconfig"
@@ -10,7 +9,6 @@ import (
 type Config struct {
 	HTTPAddr string
 	DBAddr   string
-	User     string
 }
 
 func NewConfig() (*Config, error) {
@@ -20,7 +18,6 @@ func NewConfig() (*Config, error) {
 		log.Fatal(err.Error())
 		return nil, err
 	}
-	fmt.Println(conf.HTTPAddr, conf.DBAddr, conf.User)
 
 	return &conf, nil
 }
