@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewLogger() (*zap.SugaredLogger, error) {
+func NewLogger() *zap.SugaredLogger {
 	preLogger, err := zap.NewProduction()
 	if err != nil {
 		log.Fatal(err)
@@ -14,5 +14,5 @@ func NewLogger() (*zap.SugaredLogger, error) {
 	defer preLogger.Sync()
 
 	logger := preLogger.Sugar()
-	return logger, preLogger.Sync()
+	return logger
 }

@@ -10,10 +10,7 @@ import (
 
 func Run() {
 
-	logger, err := logger.NewLogger()
-	if err != nil {
-		logger.Fatal(err)
-	}
+	logger := logger.NewLogger()
 
 	cfg, err := config.NewConfig()
 	if err != nil {
