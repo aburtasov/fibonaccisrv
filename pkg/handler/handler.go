@@ -32,7 +32,11 @@ func (h *Handler) CreateFibonacci(c *gin.Context) {
 		})
 		return
 	}
-	h.storage.Insert(l)
+	if err := h.storage.Insert(l); err != nil {
+		c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "can't insert data",
+		})
+	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "inserting done!",

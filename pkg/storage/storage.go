@@ -16,7 +16,7 @@ type RedisStorage struct {
 }
 
 type Storage interface {
-	Insert(length int)
+	Insert(length int) error
 	Get(x, y int) []int
 }
 
@@ -30,7 +30,7 @@ func NewRedisStorage(address string) *RedisStorage {
 	}
 }
 
-func (r *RedisStorage) Insert(length int) {
+func (r *RedisStorage) Insert(length int) error {
 
 	var ctx = context.Background()
 
@@ -46,11 +46,11 @@ func (r *RedisStorage) Insert(length int) {
 		r.mutex.Lock()
 		err := r.rdb.Set(ctx, strconv.Itoa(i), fib[i], 0).Err()
 		if err != nil {
-			fmt.Printf("can't set data in Redis:%s\n", err.Error())
+			return err
 		}
 		r.mutex.Unlock()
 	}
-
+	return nil
 }
 
 func (r *RedisStorage) Get(x, y int) []int {
