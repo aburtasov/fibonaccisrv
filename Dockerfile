@@ -8,6 +8,6 @@ FROM ubuntu
 COPY --from=builder /build/bin/fibsrv /build/bin/fibsrv
 
 ENV FIB_HTTPADDR=":8080"
-ENV FIB_DBADDR=":6539"
+ENV FIB_DBADDR=":6379"
 
 CMD [ "/build/bin/fibsrv" ]
