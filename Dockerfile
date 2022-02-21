@@ -4,9 +4,10 @@ COPY . .
 RUN go build -o /build/bin/fibsrv ./cmd/main.go
 
 
-FROM alpine
+FROM ubuntu
 COPY --from=builder /build/bin/fibsrv /build/bin/fibsrv
-RUN export FIB_HTTPADDR=":8080"
-RUN export FIB_DBADDR=":6539"
+
+ENV FIB_HTTPADDR=":8080"
+ENV FIB_DBADDR=":6539"
 
 CMD [ "/build/bin/fibsrv" ]
