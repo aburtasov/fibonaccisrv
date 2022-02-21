@@ -36,6 +36,7 @@ func (h *Handler) CreateFibonacci(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "can't insert data",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
