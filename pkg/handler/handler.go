@@ -28,19 +28,19 @@ func (h *Handler) CreateFibonacci(c *gin.Context) {
 	if err != nil {
 		fmt.Printf("failed to convert id param to int: %s\n", err.Error())
 		c.JSON(http.StatusBadRequest, ErrorResponce{
-			Message: err.Error(),
+			Message: err.Error() + "\n",
 		})
 		return
 	}
 	if err := h.storage.Insert(l); err != nil {
 		c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": "can't insert data",
+			"message": "can't insert data\n",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "inserting done!",
+		"message": "inserting done!\n",
 	})
 
 }
@@ -54,7 +54,7 @@ func (h *Handler) GetFibonacci(c *gin.Context) {
 	if err != nil {
 		fmt.Printf("failed to convert x param to int: %s\n", err.Error())
 		c.JSON(http.StatusBadRequest, ErrorResponce{
-			Message: err.Error(),
+			Message: err.Error() + "\n",
 		})
 		return
 	}
@@ -63,7 +63,7 @@ func (h *Handler) GetFibonacci(c *gin.Context) {
 	if err != nil {
 		fmt.Printf("failed to convert y param to int: %s\n", err.Error())
 		c.JSON(http.StatusBadRequest, ErrorResponce{
-			Message: err.Error(),
+			Message: err.Error() + "\n",
 		})
 		return
 	}
@@ -71,7 +71,7 @@ func (h *Handler) GetFibonacci(c *gin.Context) {
 	fibSlice, err := h.storage.Get(x, y)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, ErrorResponce{
-			Message: err.Error(),
+			Message: err.Error() + "\n",
 		})
 		return
 	}
