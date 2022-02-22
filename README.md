@@ -1,11 +1,17 @@
 # Fibonacci service
+This service store in Redis the Fibonacci numbers and can get any segment  
 
 ## Build & Run(locally)
 
 #### Prerequisites
 
-+ go 1.17 or latest
 + Docker
+
+### Build
+To build a binary for a native platform just call
+```shell
+docker-compose up
+```
 
 
 
