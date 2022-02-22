@@ -22,7 +22,7 @@ type Storage interface {
 func NewRedisStorage(address string) *RedisStorage {
 	return &RedisStorage{
 		rdb: redis.NewClient(&redis.Options{
-			Addr:     "0.0.0.0" + address,
+			Addr:     address,
 			Password: "", // no password set
 			DB:       0,  // use default DV
 		}),
