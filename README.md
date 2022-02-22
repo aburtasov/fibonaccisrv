@@ -8,7 +8,7 @@ This service store in Redis the Fibonacci numbers and can get any segment
 + Docker
 
 ### Build
-To build a binary for a native platform just call
+To build a service for a native platform just call
 ```shell
 docker-compose up
 ```
