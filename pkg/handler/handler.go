@@ -73,6 +73,7 @@ func (h *Handler) GetFibonacci(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, ErrorResponce{
 			Message: err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
