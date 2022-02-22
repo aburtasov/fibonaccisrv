@@ -68,7 +68,12 @@ func (h *Handler) GetFibonacci(c *gin.Context) {
 		return
 	}
 
-	fibSlice := h.storage.Get(x, y)
+	fibSlice, err := h.storage.Get(x, y)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponce{
+			Message: err.Error(),
+		})
+	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"slice": fibSlice,

@@ -2,7 +2,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	"sort"
 	"strconv"
 	"sync"
@@ -17,13 +16,13 @@ type RedisStorage struct {
 
 type Storage interface {
 	Insert(length int) error
-	Get(x, y int) []int
+	Get(x, y int) ([]int, error)
 }
 
 func NewRedisStorage(address string) *RedisStorage {
 	return &RedisStorage{
 		rdb: redis.NewClient(&redis.Options{
-			Addr:     address,
+			Addr:     "0.0.0.0" + address,
 			Password: "", // no password set
 			DB:       0,  // use default DV
 		}),
@@ -53,7 +52,7 @@ func (r *RedisStorage) Insert(length int) error {
 	return nil
 }
 
-func (r *RedisStorage) Get(x, y int) []int {
+func (r *RedisStorage) Get(x, y int) ([]int, error) {
 
 	var ctx = context.Background()
 	var fibSlice []int
@@ -65,7 +64,7 @@ func (r *RedisStorage) Get(x, y int) []int {
 			val, err := r.rdb.Get(ctx, key).Result()
 
 			if err != nil {
-				fmt.Printf("failed to get value from Redis:%s\n", err.Error())
+				return nil, err
 			}
 
 			num, _ := strconv.Atoi(val)
@@ -78,6 +77,6 @@ func (r *RedisStorage) Get(x, y int) []int {
 
 	sort.Ints(fibSlice)
 
-	return fibSlice
+	return fibSlice, nil
 
 }
