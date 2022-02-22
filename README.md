@@ -4,9 +4,7 @@
 
 #### Prerequisites
 
-+ go 1.17.3 or latest
-+ Redis latest
-+ GC compiler
++ go 1.17 or latest
 + Docker
 
 
