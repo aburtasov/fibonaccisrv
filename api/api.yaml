@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info: 
+  title: Fibonacci Service
+  description: This service store in Redis the Fibonacci numbers and can get any segment
+  version: 1.1.0
+servers: 
+  - url: 'https://localhost:8080'
+   
+paths:
+  /fibonacci/{fibLen}:
+    summary: Create the Fibonacci Numbers with lenght fibLen
+    post:
+       responses:
+        200:
+         description: Inserting Done!
+         content: 
+          application/json:
+           example: {"message":"inserting done!"}
+        
+        400:
+         description: Bad Request!
+         content:
+          application/json:
+           example: {"message":"failed to convert id param to int!"}
+        500:
+         description: Internal Server Error!
+         content:
+          application/json:
+           example: {"message":"cant insert data!"}
+  /fibonacci/{x,y}:
+   summary: Get segment x-y from the Fibonacci Numbers
+   get:
+    responses:
+      200:
+       description: Getting segment is well done
+       content:
+         application/json:
+          example: {"fibslice":[x-y segment]}
+      400:
+         description: Bad Request!
+         content:
+          application/json:
+           example: {"message":"failed to convert id param to int!"}
+      500:
+         description: Internal Server Error!
+         content:
+          application/json:
+           example: {"message":"cant get data!"}
+      
+
+      
