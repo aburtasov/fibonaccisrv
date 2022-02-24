@@ -12,12 +12,12 @@ func NewLogger() *zap.SugaredLogger {
 		log.Fatal(err)
 	}
 
-	defer func() {
+	/* defer func() {
 		err := preLogger.Sync()
 		if err != nil {
 			log.Fatal(err)
 		}
-	}()
+	}() */
 
 	logger := preLogger.Sugar()
 	return logger
