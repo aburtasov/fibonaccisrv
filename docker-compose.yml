@@ -4,12 +4,19 @@ services:
     build: .
     ports:
       - "8080:8080"
-   # volumes:
-    #  - .:/code
-     # - logvolume01:/var/log
-    links:
+    depends_on:
       - redis
+    networks:
+      - fibsrv-network
+
   redis:
     image: redis
-#volumes:
- # logvolume01: {}
+    networks:
+     fibsrv-network:
+          aliases:
+            - redis
+
+
+networks:
+  fibsrv-network:
+    driver: "bridge"
