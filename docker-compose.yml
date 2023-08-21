@@ -5,12 +5,18 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - redis
+        redis:
+         condition: service_healthy
     networks:
       - fibsrv-network
 
   redis:
     image: redis
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
     networks:
      fibsrv-network:
           aliases:
