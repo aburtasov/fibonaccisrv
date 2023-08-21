@@ -1,7 +1,7 @@
 ## Fibonacci service
 This service store in Redis the Fibonacci numbers and can get any segment 
 
-See api/api.yaml for information about allow endpoints and methods
+See **api/api.yaml** for information about allow endpoints and methods
 
 ### Build & Run(locally)
 
