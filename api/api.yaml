@@ -8,7 +8,7 @@ servers:
    
 paths:
   /fibonacci/{fibLen}:
-    summary: Create the Fibonacci Numbers with lenght fibLen
+    summary: Create the Fibonacci Sequence with lenght fibLen
     post:
        responses:
         200:
@@ -28,7 +28,7 @@ paths:
           application/json:
            example: {"message":"cant insert data!"}
   /fibonacci/{x,y}:
-   summary: Get segment x-y from the Fibonacci Numbers
+   summary: Get segment x-y from the Fibonacci Sequence
    get:
     responses:
       200:
