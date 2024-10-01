@@ -16,6 +16,10 @@ FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates
 
+ENV FIB_HTTPADDR=":8080"
+
+ENV FIB_DBADDR="redis:6379"
+
 COPY --from=builder /build/bin/fibsrv /usr/local/bin/fibsrv
 
-ENTRYPOINT ["/usr/local/bin/fibsrv"]
+CMD ["/usr/local/bin/fibsrv"]
