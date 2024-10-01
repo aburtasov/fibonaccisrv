@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/aburtasov/fibonaccisrv/pkg/config"
 	"github.com/aburtasov/fibonaccisrv/pkg/handler"
 	"github.com/aburtasov/fibonaccisrv/pkg/storage"
@@ -18,6 +20,8 @@ func main() {
 	if err != nil {
 		logger.Fatalf("Ошибка загрузки конфигурации: %v", err)
 	}
+
+	fmt.Println("///////////////////////:", cfg.HTTPAddr, cfg.DBAddr)
 
 	redisStorage := storage.NewRedisStorage(cfg.DBAddr)
 	defer func() {

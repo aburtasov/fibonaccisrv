@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	HTTPAddr string
-	DBAddr   string
+	HTTPAddr string `envconfig:"HTTPADDR" default:":8080"`
+	DBAddr   string `envconfig:"DBADDR" default:"redis:6379"`
 }
 
 func NewConfig() (*Config, error) {
