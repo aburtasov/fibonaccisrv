@@ -2,7 +2,7 @@ package storage
 
 import (
 	"context"
-	"sort"
+	"math/big"
 	"strconv"
 	"sync"
 
@@ -16,7 +16,7 @@ type RedisStorage struct {
 
 type Storage interface {
 	Insert(length int) error
-	Get(x, y int) ([]int, error)
+	Get(x, y int) ([]string, error)
 }
 
 func NewRedisStorage(address string) *RedisStorage {
@@ -24,7 +24,7 @@ func NewRedisStorage(address string) *RedisStorage {
 		rdb: redis.NewClient(&redis.Options{
 			Addr:     address,
 			Password: "", // no password set
-			DB:       0,  // use default DV
+			DB:       0,  // use default DB
 		}),
 	}
 }
@@ -33,50 +33,46 @@ func (r *RedisStorage) Insert(length int) error {
 
 	var ctx = context.Background()
 
-	fib := make(map[int]int)
-	fib[1] = 0
-	fib[2] = 1
+	fib := make([]*big.Int, length+1)
+	fib[1] = big.NewInt(0)
+	fib[2] = big.NewInt(1)
 
 	for i := 3; i <= length; i++ {
-		fib[i] = fib[i-1] + fib[i-2]
+		fib[i] = new(big.Int).Add(fib[i-1], fib[i-2])
 	}
 
-	for i := range fib {
+	for i := 1; i <= length; i++ {
 		r.mutex.Lock()
-		err := r.rdb.Set(ctx, strconv.Itoa(i), fib[i], 0).Err()
+		err := r.rdb.Set(ctx, strconv.Itoa(i), fib[i].String(), 0).Err()
+		r.mutex.Unlock()
 		if err != nil {
 			return err
 		}
-		r.mutex.Unlock()
 	}
 	return nil
 }
 
-func (r *RedisStorage) Get(x, y int) ([]int, error) {
+func (r *RedisStorage) Get(x, y int) ([]string, error) {
 
 	var ctx = context.Background()
-	var fibSlice []int
+	var fibSlice []string
 
-	for i := 1; i <= y; i++ {
+	for i := x; i <= y; i++ {
 
-		if i >= x && i <= y {
-			key := strconv.Itoa(i)
-			val, err := r.rdb.Get(ctx, key).Result()
+		key := strconv.Itoa(i)
+		val, err := r.rdb.Get(ctx, key).Result()
 
-			if err != nil {
-				return nil, err
-			}
-
-			num, _ := strconv.Atoi(val)
-
-			fibSlice = append(fibSlice, num)
-		} else {
-			continue
+		if err != nil {
+			return nil, err
 		}
+
+		fibSlice = append(fibSlice, val)
 	}
 
-	sort.Ints(fibSlice)
-
 	return fibSlice, nil
+}
 
+// Close закрывает соединение с Redis
+func (r *RedisStorage) Close() error {
+	return r.rdb.Close()
 }
