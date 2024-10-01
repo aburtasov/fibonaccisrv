@@ -1,25 +1,31 @@
+# Стадия сборки
 FROM golang:1.21 AS builder
 
 WORKDIR /go/src/fibonacci
 
-# Копируем только go.mod и go.sum для загрузки зависимостей
+# Копируем файлы проекта
 COPY go.mod go.sum ./
-
 RUN go mod download
 
-# Копируем остальные файлы
 COPY . .
 
+# Сборка приложения
 RUN go build -o /build/bin/fibsrv ./cmd/main.go
 
+# Финальная стадия
 FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates
 
-ENV FIB_HTTPADDR=":8080"
+# Копируем исполняемый файл из стадии сборки
+COPY --from=builder /build/bin/fibsrv /usr/local/bin/fibsrv
 
-ENV FIB_DBADDR="redis:6379"
+# Проверяем, что файл существует и доступен
+RUN ls -l /usr/local/bin/fibsrv
+RUN file /usr/local/bin/fibsrv
 
-COPY --from=builder /build/bin/fibsrv /build/bin/fibsrv
+# Устанавливаем права на исполняемый файл
+RUN chmod +x /usr/local/bin/fibsrv
 
-CMD ["/build/bin/fibsrv"]
+# Определяем точку входа
+ENTRYPOINT ["/usr/local/bin/fibsrv"]
