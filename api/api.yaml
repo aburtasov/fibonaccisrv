@@ -1,51 +1,77 @@
 openapi: 3.0.3
 info: 
   title: Fibonacci Service
-  description: This service store in Redis the Fibonacci Sequence and can get any segment
+  description: This service stores the Fibonacci Sequence in Redis and can retrieve any segment.
   version: 1.1.0
 servers: 
   - url: 'https://localhost:8080'
-   
+     
 paths:
   /fibonacci/{fibLen}:
-    summary: Create the Fibonacci Sequence with lenght fibLen
+    summary: Create the Fibonacci Sequence with length fibLen
     post:
-       responses:
-        200:
-         description: Inserting Done!
-         content: 
-          application/json:
-           example: {"message":"inserting done!"}
-        
-        400:
-         description: Bad Request!
-         content:
-          application/json:
-           example: {"message":"failed to convert id param to int!"}
-        500:
-         description: Internal Server Error!
-         content:
-          application/json:
-           example: {"message":"can't insert data!"}
-  /fibonacci/{x,y}:
-   summary: Get segment x-y from the Fibonacci Sequence
-   get:
-    responses:
-      200:
-       description: Getting segment is well done
-       content:
-         application/json:
-          example: {"fibslice":[x-y segment]}
-      400:
-         description: Bad Request!
-         content:
-          application/json:
-           example: {"message":"failed to convert id param to int!"}
-      500:
-         description: Internal Server Error!
-         content:
-          application/json:
-           example: {"message":"can't get data!"}
-      
-
-      
+      parameters:
+        - name: fibLen
+          in: path
+          required: true
+          description: Length of the Fibonacci sequence to generate.
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Inserting Done!
+          content: 
+            application/json:
+              example: 
+                message: "inserting done!"
+        '400':
+          description: Bad Request!
+          content:
+            application/json:
+              example: 
+                message: "failed to convert id param to int!"
+        '500':
+          description: Internal Server Error!
+          content:
+            application/json:
+              example: 
+                message: "can't insert data!"
+              
+  /fibonacci:
+    summary: Get a segment of the Fibonacci Sequence
+    get:
+      parameters:
+        - name: x
+          in: query
+          required: true
+          description: Start index of the Fibonacci segment.
+          schema:
+            type: integer
+            minimum: 1
+        - name: y
+          in: query
+          required: true
+          description: End index of the Fibonacci segment.
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successfully retrieved the Fibonacci segment.
+          content:
+            application/json:
+              example: 
+                slice: ["218922995834555169026", "354224848179261915075"]
+        '400':
+          description: Bad Request!
+          content:
+            application/json:
+              example: 
+                message: "failed to convert id param to int!"
+        '500':
+          description: Internal Server Error!
+          content:
+            application/json:
+              example: 
+                message: "can't get data!"
