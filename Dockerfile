@@ -20,6 +20,6 @@ ENV FIB_HTTPADDR=":8080"
 
 ENV FIB_DBADDR="redis:6379"
 
-COPY --from=builder /build/bin/fibsrv /usr/local/bin/fibsrv
+COPY --from=builder /build/bin/fibsrv /build/bin/fibsrv
 
-CMD ["/usr/local/bin/fibsrv"]
+CMD ["/build/bin/fibsrv"]
