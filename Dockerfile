@@ -1,25 +1,19 @@
-# Стадия сборки
 FROM golang:1.21 AS builder
 
 WORKDIR /go/src/fibonacci
 
-# Копируем файлы проекта
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
 
-# Сборка приложения
-RUN go build -o /build/bin/fibsrv ./cmd/main.go
+# Сборка статически связанного бинарника
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /build/bin/fibsrv ./cmd/main.go
 
-# Финальная стадия
-FROM centos:latest
+FROM ubuntu:22.04
 
-# Установка необходимых пакетов
-RUN apk --no-cache add ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
-# Копируем исполняемый файл из стадии сборки
 COPY --from=builder /build/bin/fibsrv /usr/local/bin/fibsrv
 
-# Определяем точку входа
 ENTRYPOINT ["/usr/local/bin/fibsrv"]
